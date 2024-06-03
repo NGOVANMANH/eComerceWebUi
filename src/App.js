@@ -18,7 +18,8 @@ import Product from './pages/sell/Product';
 import Order from './pages/sell/Order';
 import Orders from './pages/admin/Orders';
 import OrderOffline from './pages/admin/OrderOffline';
-import Vouchers from './pages/admin/Vouchers';
+import VouchersAdmin from './pages/admin/Vouchers';
+import VouchersSell from './pages/sell/Vouchers';
 
 function App() {
   const router = createBrowserRouter([
@@ -49,7 +50,7 @@ function App() {
         },
         {
           path: 'vouchers',
-          element: <Vouchers />
+          element: <VouchersAdmin />
         },
       ]
     },
@@ -104,8 +105,11 @@ function App() {
         {
           path: '/cart',
           element: <Cart />
-        }
-        ,
+        },
+        {
+          path: '/vouchers',
+          element: <VouchersSell />
+        },
         {
           path: '/products/:productId',
           element: <Product />

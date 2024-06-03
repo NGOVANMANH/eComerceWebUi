@@ -62,6 +62,9 @@ const Nav = (props) => {
                                                 <Link className="nav-link" to="/cart">Cart</Link>
                                             </li>
                                         }
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to="/vouchers">Vouchers</Link>
+                                        </li>
                                     </>
                                 )
                             }
