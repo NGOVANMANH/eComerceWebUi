@@ -32,7 +32,16 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.rounded-10 {
+  border-radius: 10px;
 }
