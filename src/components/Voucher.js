@@ -17,7 +17,7 @@ const Voucher = (props) => {
                 <small className="text-muted">{convertDate(props?.voucher?.start_date)} to {convertDate(props?.voucher?.end_date)}</small>
             </Card.Footer>
             <Card.Footer>
-                <Button size='sm' className='w-100' variant={props.voucher.is_active ? 'success' : 'secondary'} disabled={!props.voucher.is_active}>Get</Button>
+                <Button size='sm' className='w-100' variant={props.voucher.is_active ? 'success' : 'secondary'} disabled={!props.voucher.is_activek}>Get</Button>
             </Card.Footer>
         </Card>
     );
