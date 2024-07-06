@@ -34,9 +34,9 @@ function ProductCard(props) {
     return (
         product ?
             <Card style={{ height: "100%" }}>
-                <Card.Img variant="top" src={product.thumbnail} style={{ height: "420px", objectFit: "cover" }} />
+                <Card.Img variant="top" src={product.thumbnail} style={{ height: "260px", objectFit: "cover" }} />
                 <Card.Body>
-                    <Card.Title style={{ display: 'block', height: '120px' }}>{product.name.toUpperCase()}</Card.Title>
+                    <Card.Title style={{ display: 'block', height: '100px' }} className='fs-6'>{product.name.toUpperCase()}</Card.Title>
                     <Card.Text>
                         {product.short_description || "Sản phẩm đang được bán"}
                     </Card.Text>

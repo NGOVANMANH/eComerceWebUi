@@ -28,7 +28,7 @@ const ProductInfo = (props) => {
             {!props.isPage ? (
                 <div className="d-flex flex-row mb-2">
                     <Image
-                        src={props.product.thumbnail ? props.product.thumbnail : productDefaultImage}
+                        src={props.product?.thumbnail ? props.product.thumbnail : productDefaultImage}
                         alt="Product img"
                         type="product"
                     />

@@ -1,15 +1,57 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserInfor from "./UserInfor";
-import { Dropdown, NavDropdown } from 'react-bootstrap';
+import { Button, Dropdown, Form, ListGroup, NavDropdown } from 'react-bootstrap';
 import ShopContext from "../context/ShopContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import SearchItem from "./SearchItem";
+import { useDebounce } from "../hooks/hooks.custom";
 
 const Nav = (props) => {
     const auth = useContext(AuthContext)
     const shop = useContext(ShopContext)
     const navigate = useNavigate()
     const location = useLocation()
+    const [show, setShow] = useState(false)
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault()
+        const search = e.target[0].value
+        setShow(false)
+        navigate(`/search/${search}`)
+    }
+
+    const [searchValue, setSearchValue] = useState();
+    const debouncedSearchValue = useDebounce(searchValue, 500);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        if (!debouncedSearchValue) return
+
+        fetch(`http://localhost:3010/api/products/search/${debouncedSearchValue}`)
+            .then(res => res.json())
+            .then(data => {
+                setShow(true)
+                if (data.success) {
+                    setProducts(data.data)
+                }
+                setSearchValue('')
+            })
+            .catch(console.error)
+
+    })
+
+    const handelChangeSearch = (e) => {
+        setSearchValue(e.target.value)
+    }
+
+
+    const handleChosseSearchItem = (id) => {
+        navigate(`/products/${id}`)
+        setShow(false)
+    }
 
     return (
         <>
@@ -65,6 +107,42 @@ const Nav = (props) => {
                                         <li className="nav-item">
                                             <Link className="nav-link" to="/vouchers">Vouchers</Link>
                                         </li>
+                                        <div className="position-relative">
+                                            <Form className="d-flex" onSubmit={handleSearchSubmit}>
+                                                <Form.Control
+                                                    type="search"
+                                                    placeholder="Search"
+                                                    className="me-1"
+                                                    aria-label="Search"
+                                                    style={{
+                                                        width: "400px"
+                                                    }}
+                                                    onChange={handelChangeSearch}
+                                                />
+                                                <Button variant="outline-secondary" type="submit">
+                                                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                                                </Button>
+                                            </Form>
+                                            <div className="position-absolute border w-100">
+                                                <ListGroup style={{
+                                                    position: "absolute",
+                                                    zIndex: "100",
+                                                    // width: "400px",
+                                                    marginTop: "10px",
+                                                    maxHeight: "70vh",
+                                                    overflowY: "auto",
+                                                    display: show ? "block" : "none"
+                                                }}>
+                                                    {
+                                                        products && products.map((product, index) => (
+                                                            <ListGroup.Item key={index} onClick={() => handleChosseSearchItem(product.id)}>
+                                                                <SearchItem product={product} />
+                                                            </ListGroup.Item>
+                                                        ))
+                                                    }
+                                                </ListGroup>
+                                            </div>
+                                        </div>
                                     </>
                                 )
                             }
@@ -85,6 +163,7 @@ const Nav = (props) => {
                                                 <Dropdown.Item onClick={() => navigate('/admin')}>To admin page</Dropdown.Item>
                                             ))}
 
+                                            <Dropdown.Item onClick={() => navigate('/my-vouchers')}>My vouchers</Dropdown.Item>
                                             <Dropdown.Item onClick={auth.logout}>Log out</Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>

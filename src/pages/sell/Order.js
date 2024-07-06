@@ -5,6 +5,7 @@ import AuthContext from '../../context/AuthContext';
 import ShopContext from '../../context/ShopContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const Order = () => {
     const auth = useContext(AuthContext);
@@ -15,6 +16,10 @@ const Order = () => {
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
+    const [addressButtonContent, setAddressButtonContent] = useState({
+        title: 'Add new address',
+        isShowSelectElement: userAddresses?.length > 0 ? true : false
+    });
 
     const navigate = useNavigate()
 
@@ -67,6 +72,17 @@ const Order = () => {
                 const data = await res.json();
                 if (data.success) {
                     setUserAddresses(data.data);
+                    if (data.data.length > 0) {
+                        setAddressButtonContent({
+                            title: 'Add new address',
+                            isShowSelectElement: true
+                        })
+                    } else {
+                        setAddressButtonContent({
+                            title: null,
+                            isShowSelectElement: false
+                        })
+                    }
                 }
             } catch (error) {
                 console.error(error);
@@ -335,9 +351,23 @@ const Order = () => {
                                 </div>
 
                                 <div className="col-12">
-                                    <label htmlFor="address" className="form-label">Address</label>
+                                    <label htmlFor="address" className="form-label w-100 d-flex justify-content-between">
+                                        <span>Address</span>
+                                        {
+                                            addressButtonContent.title !== null &&
+                                            <Button size='sm' style={{ minWidth: '25%' }}
+                                                onClick={() => {
+                                                    setAddressButtonContent({
+                                                        ...addressButtonContent,
+                                                        title: addressButtonContent.isShowSelectElement ? 'Choose address' : 'Add new address',
+                                                        isShowSelectElement: !addressButtonContent.isShowSelectElement
+                                                    })
+                                                }}
+                                            >{addressButtonContent.title}</Button>
+                                        }
+                                    </label>
                                     {
-                                        (userAddresses && userAddresses.length > 0) ?
+                                        (addressButtonContent.isShowSelectElement) ?
                                             <>
                                                 <select
                                                     className={`form-select ${formik.touched.address && formik.errors.address ? 'is-invalid' : ''}`}
@@ -505,9 +535,9 @@ const Order = () => {
                             <button className="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
                         </form>
                     </div>
-                </div>
-            </main>
-        </div>
+                </div >
+            </main >
+        </div >
     );
 };
 

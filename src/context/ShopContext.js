@@ -9,7 +9,7 @@ export const ShopProvider = ({ children }) => {
     const [categories, setCategories] = useState();
     const [cart, setCart] = useState({});
     const [reCallApi, setRecallApi] = useState(1);
-    const shopName = 'DemShop'
+    const shopName = 'DemoShop'
 
     useEffect(() => {
         const fetchData = async () => {

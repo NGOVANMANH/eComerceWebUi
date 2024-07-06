@@ -20,6 +20,8 @@ import Orders from './pages/admin/Orders';
 import OrderOffline from './pages/admin/OrderOffline';
 import VouchersAdmin from './pages/admin/Vouchers';
 import VouchersSell from './pages/sell/Vouchers';
+import MyVouchers from './pages/sell/MyVouchers';
+import Search from './pages/sell/Search';
 
 function App() {
   const router = createBrowserRouter([
@@ -89,8 +91,8 @@ function App() {
           element: <Home />,
         },
         {
-          path: '/about',
-          element: <h1>About</h1>
+          path: '/search/:key',
+          element: <Search />
         },
         {
           path: '/profile',
@@ -105,6 +107,10 @@ function App() {
         {
           path: '/cart',
           element: <Cart />
+        },
+        {
+          path: '/my-vouchers',
+          element: <MyVouchers />
         },
         {
           path: '/vouchers',

@@ -10,7 +10,7 @@ const Home = () => {
     const [products, setProducts] = useState([]);
     const [pagination, setPagination] = useState({
         total: null,
-        limit: 8,
+        limit: 10,
         offset: 0,
     })
 
@@ -40,7 +40,7 @@ const Home = () => {
     return (
         <div>
             <div className="container py-4">
-                <Row xs={1} md={4} className="g-2">
+                <Row xs={1} md={5} className="g-2">
                     {products.map((product, idx) => (
                         <Col key={idx}>
                             <ProductCard productId={product.id} />
